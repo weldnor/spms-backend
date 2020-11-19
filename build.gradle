@@ -21,7 +21,10 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api"
@@ -30,8 +33,6 @@ dependencies {
     testImplementation "org.mockito:mockito-core"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.springframework:spring-test:5.+"
-
-
     testRuntime "org.junit.jupiter:junit-jupiter-engine"
 }
 
