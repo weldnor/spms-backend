@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: postgresql
+  - changeSet:
+      id: spms-20201120-1656
+      author: kolesov_as
+      comment: Create initial information
+      changes:
+        - sqlFile:
+            path: spms-20201120-1656.sql
+            relativeToChangelogFile: true
