@@ -13,6 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+    private String username;
     private String firstName;
     private String secondName;
     private String patronymic;

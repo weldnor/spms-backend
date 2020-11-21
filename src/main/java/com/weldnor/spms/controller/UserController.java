@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(
-        path = "/users",
+        path = "api/users",
         produces = "application/json"
 )
 public class UserController {
