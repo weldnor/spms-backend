@@ -9,9 +9,9 @@ public interface UserService {
 
     List<User> getAll();
 
-    Optional<User> findByUsername(String username);
+    Optional<User> getByUsername(String username);
 
-    Optional<User> findById(Long id);
+    Optional<User> getById(Long id);
 
-    void delete(Long id);
+    Optional<User> deleteById(Long id);
 }

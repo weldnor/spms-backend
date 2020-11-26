@@ -1,10 +1,9 @@
 package com.weldnor.spms.controller;
 
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.repository.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.weldnor.spms.exception.user.UserNotFoundException;
+import com.weldnor.spms.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,14 +13,20 @@ import java.util.List;
         produces = "application/json"
 )
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping(path = "")
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAll();
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public User getAllUsers(@PathVariable(name = "id") long id) throws UserNotFoundException {
+        return userService.deleteById(id)
+                .orElseThrow(() -> new UserNotFoundException("user with id " + id + " not found"));
     }
 }
