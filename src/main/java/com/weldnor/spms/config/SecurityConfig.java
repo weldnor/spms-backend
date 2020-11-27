@@ -1,5 +1,6 @@
 package com.weldnor.spms.config;
 
+import com.weldnor.spms.security.jwt.JwtConfigurer;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,12 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and()
-//                .authorizeRequests()
-//                .mvcMatchers("/api/login").permitAll()
-//                .mvcMatchers("/api/**").hasRole("ADMIN")
-//                .and()
-//                .apply(new JwtConfigurer(jwtTokenProvider));
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .mvcMatchers("/api/login").permitAll()
+                .mvcMatchers("/api/**").hasRole("ADMIN")
+                .and()
+                .apply(new JwtConfigurer(jwtTokenProvider));
     }
 }
