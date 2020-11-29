@@ -1,7 +1,7 @@
 package com.weldnor.spms.security.jwt;
 
+import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.entity.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -18,20 +18,17 @@ public class JwtUserFactory {
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
-                mapToGrantedAuthorities(user.getRole())
+                mapToGrantedAuthorities(user.getGlobalRoles())
         );
 
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(UserRole role) {
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<GlobalRole> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        if (role.getName().equals("ADMIN")) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        for (GlobalRole role : roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         }
-
         return authorities;
     }
 }

@@ -10,3 +10,11 @@ databaseChangeLog:
         - sqlFile:
             path: spms-20201120-1656.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: spms-20201129-1606
+      author: kolesov_as
+      comment: Rename user_roles table, remove user_role_id column is users table, add users_global_roles table
+      changes:
+        - sqlFile:
+            path: spms-20201129-1606.sql
+            relativeToChangelogFile: true

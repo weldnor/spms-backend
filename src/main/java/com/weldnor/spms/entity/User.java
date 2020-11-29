@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -19,7 +21,9 @@ public class User {
     private String patronymic;
     private String password;
     private String email;
-    @ManyToOne
-    @JoinColumn(name = "user_role_id")
-    private UserRole role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_global_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "global_role_id"))
+    private List<GlobalRole> globalRoles = new ArrayList<>();
 }

@@ -1,7 +1,7 @@
 package com.weldnor.spms.security.jwt;
 
+import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.entity.UserRole;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +46,7 @@ public class JwtTokenProvider {
 
     public String createToken(User user) {
         String username = user.getUsername();
-        List<UserRole> roles = List.of(user.getRole());
+        List<GlobalRole> roles = user.getGlobalRoles();
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleNames(roles));
@@ -89,10 +89,10 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<UserRole> userRoles) {
+    private List<String> getRoleNames(List<GlobalRole> globalRoles) {
         List<String> result = new ArrayList<>();
 
-        userRoles.forEach(role -> result.add(role.getName()));
+        globalRoles.forEach(role -> result.add(role.getName()));
 
         return result;
     }

@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "global_roles")
 @Data
 @NoArgsConstructor
-public class UserRole {
+public class GlobalRole {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userRoleId;
+    private Long globalRoleId;
     private String name;
 }
 
