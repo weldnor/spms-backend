@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class GlobalRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long globalRoleId;
     private String name;
 }
