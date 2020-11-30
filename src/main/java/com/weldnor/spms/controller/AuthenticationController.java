@@ -3,6 +3,8 @@ package com.weldnor.spms.controller;
 import com.weldnor.spms.dto.AuthenticationRequestDto;
 import com.weldnor.spms.dto.NewUserDto;
 import com.weldnor.spms.entity.User;
+import com.weldnor.spms.entity.UserGlobalRole;
+import com.weldnor.spms.repository.UserGlobalRoleRepository;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
 import com.weldnor.spms.security.oauth.VkAuthService;
@@ -36,14 +38,17 @@ public class AuthenticationController {
 
     private final UserRepository userRepository;
 
+    private final UserGlobalRoleRepository userGlobalRoleRepository;
+
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, PasswordEncoder passwordEncoder, UserRepository userRepository, UserGlobalRoleRepository userGlobalRoleRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.vkAuthService = vkAuthService;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userGlobalRoleRepository = userGlobalRoleRepository;
     }
 
     @PostMapping("/api/public/login/basic")
@@ -71,7 +76,12 @@ public class AuthenticationController {
     public Map<Object, Object> register(@RequestBody @Valid NewUserDto userDto) {
         User user = userDto.mapToUser();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        user = userRepository.save(user);
+
+        UserGlobalRole userGlobalRole = new UserGlobalRole();
+        userGlobalRole.setUserId(user.getUserId());
+        userGlobalRole.setGlobalRoleId(1);
+        userGlobalRoleRepository.save(userGlobalRole);
 
         String token = jwtTokenProvider.createToken(user);
         Map<Object, Object> response = new HashMap<>();

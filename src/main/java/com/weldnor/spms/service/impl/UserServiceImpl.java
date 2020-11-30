@@ -5,10 +5,12 @@ import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.service.UserService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getById(Long id) {
+    public Optional<User> getById(long id) {
         return userRepository.findById(id);
     }
 
@@ -39,9 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> deleteById(Long id) {
-        Optional<User> user = getById(id);
+    public void deleteById(long id) {
         userRepository.deleteById(id);
-        return user;
     }
 }

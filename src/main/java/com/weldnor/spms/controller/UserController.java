@@ -24,9 +24,14 @@ public class UserController {
         return userService.getAll();
     }
 
+    @GetMapping(path = "/{id}")
+    public User getUser(@PathVariable(name = "id") long id) throws UserNotFoundException {
+        return userService.getById(id)
+                .orElseThrow();
+    }
+
     @DeleteMapping(path = "/{id}")
-    public User getAllUsers(@PathVariable(name = "id") long id) throws UserNotFoundException {
-        return userService.deleteById(id)
-                .orElseThrow(() -> new UserNotFoundException("user with id " + id + " not found"));
+    public void deleteUser(@PathVariable(name = "id") long id) throws UserNotFoundException {
+        userService.deleteById(id);
     }
 }
