@@ -18,3 +18,11 @@ databaseChangeLog:
         - sqlFile:
             path: spms-20201129-1606.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: spms-20201130-1325
+      author: kolesov_as
+      comment: Add unique constraint to email and username, not null constraint to email and password
+      changes:
+        - sqlFile:
+            path: spms-20201130-1325.sql
+            relativeToChangelogFile: true
