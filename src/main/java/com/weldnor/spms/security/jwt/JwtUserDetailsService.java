@@ -1,7 +1,6 @@
-package com.weldnor.spms.security;
+package com.weldnor.spms.security.jwt;
 
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.security.jwt.JwtUserFactory;
 import com.weldnor.spms.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
