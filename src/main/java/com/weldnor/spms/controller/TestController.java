@@ -1,6 +1,6 @@
 package com.weldnor.spms.controller;
 
-import com.weldnor.spms.security.JwtUserDetailsService;
+import com.weldnor.spms.security.jwt.JwtUserDetailsService;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
