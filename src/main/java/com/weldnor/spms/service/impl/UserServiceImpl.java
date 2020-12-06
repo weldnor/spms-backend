@@ -1,6 +1,7 @@
 package com.weldnor.spms.service.impl;
 
 import com.weldnor.spms.entity.User;
+import com.weldnor.spms.mapper.UserMapper;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.service.UserService;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
 
@@ -38,6 +42,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void update(User user, long id) {
+        User original = getById(id).orElseThrow();
+        original = userMapper.mergeUsers(original, user);
+        System.out.println(original.getPassword());
+        userRepository.save(original);
     }
 
     @Override

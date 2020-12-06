@@ -15,5 +15,7 @@ public interface UserService {
 
     Optional<User> getByEmail(String email);
 
+    void update(User user, long id);
+
     void deleteById(long id);
 }

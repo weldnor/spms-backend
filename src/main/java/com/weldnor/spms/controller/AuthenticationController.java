@@ -4,6 +4,7 @@ import com.weldnor.spms.dto.AuthenticationRequestDto;
 import com.weldnor.spms.dto.NewUserDto;
 import com.weldnor.spms.entity.User;
 import com.weldnor.spms.entity.UserGlobalRole;
+import com.weldnor.spms.mapper.UserMapper;
 import com.weldnor.spms.repository.UserGlobalRoleRepository;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,20 +34,20 @@ public class AuthenticationController {
 
     private final VkAuthService vkAuthService;
 
-    private final PasswordEncoder passwordEncoder;
-
     private final UserRepository userRepository;
+
+    private final UserMapper userMapper;
 
     private final UserGlobalRoleRepository userGlobalRoleRepository;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, PasswordEncoder passwordEncoder, UserRepository userRepository, UserGlobalRoleRepository userGlobalRoleRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, UserRepository userRepository, UserMapper userMapper, UserGlobalRoleRepository userGlobalRoleRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.vkAuthService = vkAuthService;
-        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
         this.userGlobalRoleRepository = userGlobalRoleRepository;
     }
 
@@ -74,8 +74,7 @@ public class AuthenticationController {
 
     @PostMapping("/api/public/register")
     public Map<Object, Object> register(@RequestBody @Valid NewUserDto userDto) {
-        User user = userDto.mapToUser();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = userMapper.mapToUser(userDto);
         user = userRepository.save(user);
 
         UserGlobalRole userGlobalRole = new UserGlobalRole();
