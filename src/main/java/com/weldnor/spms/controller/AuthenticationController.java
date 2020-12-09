@@ -2,10 +2,10 @@ package com.weldnor.spms.controller;
 
 import com.weldnor.spms.dto.AuthenticationRequestDto;
 import com.weldnor.spms.dto.NewUserDto;
+import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.entity.UserGlobalRole;
 import com.weldnor.spms.mapper.UserMapper;
-import com.weldnor.spms.repository.UserGlobalRoleRepository;
+import com.weldnor.spms.repository.GlobalRoleRepository;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
 import com.weldnor.spms.security.oauth.VkAuthService;
@@ -36,19 +36,19 @@ public class AuthenticationController {
 
     private final UserRepository userRepository;
 
+    private final GlobalRoleRepository globalRoleRepository;
+
     private final UserMapper userMapper;
 
-    private final UserGlobalRoleRepository userGlobalRoleRepository;
-
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, UserRepository userRepository, UserMapper userMapper, UserGlobalRoleRepository userGlobalRoleRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, VkAuthService vkAuthService, UserRepository userRepository, GlobalRoleRepository globalRoleRepository, UserMapper userMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.vkAuthService = vkAuthService;
         this.userRepository = userRepository;
+        this.globalRoleRepository = globalRoleRepository;
         this.userMapper = userMapper;
-        this.userGlobalRoleRepository = userGlobalRoleRepository;
     }
 
     @PostMapping("/api/public/login/basic")
@@ -75,12 +75,9 @@ public class AuthenticationController {
     @PostMapping("/api/public/register")
     public Map<Object, Object> register(@RequestBody @Valid NewUserDto userDto) {
         User user = userMapper.mapToUser(userDto);
+        GlobalRole userRole = globalRoleRepository.findByName("USER").orElseThrow();
+        user.getGlobalRoles().add(userRole);
         user = userRepository.save(user);
-
-        UserGlobalRole userGlobalRole = new UserGlobalRole();
-        userGlobalRole.setUserId(user.getUserId());
-        userGlobalRole.setGlobalRoleId(1);
-        userGlobalRoleRepository.save(userGlobalRole);
 
         String token = jwtTokenProvider.createToken(user);
         Map<Object, Object> response = new HashMap<>();
