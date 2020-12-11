@@ -63,7 +63,7 @@ public class AuthenticationController {
             String token = jwtTokenProvider.createToken(user);
 
             Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
+            response.put("user_id", user.getUserId());
             response.put("token", token);
 
             return response;
@@ -81,7 +81,7 @@ public class AuthenticationController {
 
         String token = jwtTokenProvider.createToken(user);
         Map<Object, Object> response = new HashMap<>();
-        response.put("username", user.getUsername());
+        response.put("user_id", user.getUserId());
         response.put("token", token);
         return response;
     }
@@ -95,7 +95,7 @@ public class AuthenticationController {
 
         String token = jwtTokenProvider.createToken(user);
         Map<Object, Object> response = new HashMap<>();
-        response.put("username", user.getUsername());
+        response.put("user_id", user.getUserId());
         response.put("token", token);
         return response;
     }
