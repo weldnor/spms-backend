@@ -10,5 +10,7 @@ public interface ProjectService {
 
     Optional<Project> getById(long id);
 
+    Project add(Project project);
+
     void deleteById(long id);
 }
