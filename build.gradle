@@ -31,6 +31,9 @@ dependencies {
     implementation 'org.liquibase:liquibase-core'
     implementation 'com.vk.api:sdk:0.5.12'
 
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
