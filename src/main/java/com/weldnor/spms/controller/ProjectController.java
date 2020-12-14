@@ -1,6 +1,8 @@
 package com.weldnor.spms.controller;
 
+import com.weldnor.spms.dto.project.ProjectDto;
 import com.weldnor.spms.entity.Project;
+import com.weldnor.spms.mapper.project.ProjectMapper;
 import com.weldnor.spms.service.ProjectService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +15,23 @@ import java.util.List;
 )
 public class ProjectController {
     private final ProjectService projectService;
+    private final ProjectMapper projectMapper;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ProjectMapper projectMapper) {
         this.projectService = projectService;
+        this.projectMapper = projectMapper;
     }
 
     @GetMapping(path = "")
-    public List<Project> getAllProjects() {
-        return projectService.getAll();
+    public List<ProjectDto> getAllProjects() {
+        List<Project> projects = projectService.getAll();
+        return projectMapper.toDto(projects);
     }
 
     @GetMapping(path = "/{id}")
-    public Project getProject(@PathVariable("id") long id) {
-        return projectService.getById(id).orElseThrow();
+    public ProjectDto getProject(@PathVariable("id") long id) {
+        Project project = projectService.getById(id).orElseThrow();
+        return projectMapper.toDto(project);
     }
 
     @DeleteMapping(path = "/{id}")

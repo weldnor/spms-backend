@@ -16,12 +16,15 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long projectId;
     private String name;
-    private long ownerId;
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "project_members",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> members = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 }
