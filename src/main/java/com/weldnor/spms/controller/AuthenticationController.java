@@ -1,10 +1,10 @@
 package com.weldnor.spms.controller;
 
 import com.weldnor.spms.dto.AuthenticationRequestDto;
-import com.weldnor.spms.dto.NewUserDto;
+import com.weldnor.spms.dto.user.NewUserDto;
 import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.mapper.UserMapper;
+import com.weldnor.spms.mapper.user.UserMapper;
 import com.weldnor.spms.repository.GlobalRoleRepository;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.security.jwt.JwtTokenProvider;
@@ -74,7 +74,7 @@ public class AuthenticationController {
 
     @PostMapping("/api/public/register")
     public Map<Object, Object> register(@RequestBody @Valid NewUserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
+        User user = userMapper.toEntity(userDto);
         GlobalRole userRole = globalRoleRepository.findByName("USER").orElseThrow();
         user.getGlobalRoles().add(userRole);
         user = userRepository.save(user);

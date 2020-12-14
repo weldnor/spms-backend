@@ -1,9 +1,9 @@
 package com.weldnor.spms.controller;
 
-import com.weldnor.spms.dto.UpdateUserDto;
+import com.weldnor.spms.dto.user.UpdateUserDto;
+import com.weldnor.spms.dto.user.UserDto;
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.exception.user.UserNotFoundException;
-import com.weldnor.spms.mapper.UserMapper;
+import com.weldnor.spms.mapper.user.UserMapper;
 import com.weldnor.spms.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +26,9 @@ public class UserController {
     }
 
     @GetMapping(path = "")
-    public List<User> getAllUsers() {
-        return userService.getAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userService.getAll();
+        return userMapper.toDto(users);
     }
 
     @GetMapping(path = "/{id}")
@@ -38,7 +39,7 @@ public class UserController {
 
     @PostMapping(path = "/{id}")
     public void updateUser(@PathVariable(name = "id") long id, @RequestBody @Valid UpdateUserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
+        User user = userMapper.toEntity(userDto);
         userService.update(user, id);
     }
 

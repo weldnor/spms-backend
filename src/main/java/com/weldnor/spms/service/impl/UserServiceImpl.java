@@ -1,7 +1,7 @@
 package com.weldnor.spms.service.impl;
 
 import com.weldnor.spms.entity.User;
-import com.weldnor.spms.mapper.UserMapper;
+import com.weldnor.spms.mapper.user.UserMapper;
 import com.weldnor.spms.repository.UserRepository;
 import com.weldnor.spms.service.UserService;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user, long id) {
         User original = getById(id).orElseThrow();
-        original = userMapper.mergeUsers(original, user);
+        userMapper.merge(original, user);
         System.out.println(original.getPassword());
         userRepository.save(original);
     }

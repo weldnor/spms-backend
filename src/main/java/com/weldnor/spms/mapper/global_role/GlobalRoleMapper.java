@@ -3,12 +3,14 @@ package com.weldnor.spms.mapper.global_role;
 
 import com.weldnor.spms.dto.global_role.GlobalRoleDto;
 import com.weldnor.spms.entity.GlobalRole;
-import com.weldnor.spms.mapper.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
-public class GlobalRoleMapper implements Mapper<GlobalRole, GlobalRoleDto> {
+public class GlobalRoleMapper {
 
     private final ModelMapper mapper;
 
@@ -16,13 +18,20 @@ public class GlobalRoleMapper implements Mapper<GlobalRole, GlobalRoleDto> {
         this.mapper = mapper;
     }
 
-    @Override
     public GlobalRole toEntity(GlobalRoleDto dto) {
         return mapper.map(dto, GlobalRole.class);
     }
 
-    @Override
     public GlobalRoleDto toDto(GlobalRole entity) {
         return mapper.map(entity, GlobalRoleDto.class);
+    }
+
+    public List<GlobalRoleDto> toDto(List<GlobalRole> entityList) {
+        List<GlobalRoleDto> dtoList = new ArrayList<>();
+
+        for (GlobalRole entity : entityList) {
+            dtoList.add(toDto(entity));
+        }
+        return dtoList;
     }
 }
