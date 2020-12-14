@@ -2,6 +2,7 @@ package com.weldnor.spms.mapper.project;
 
 import com.weldnor.spms.dto.project.NewProjectDto;
 import com.weldnor.spms.dto.project.ProjectDto;
+import com.weldnor.spms.dto.project.UpdateProjectDto;
 import com.weldnor.spms.entity.Project;
 import com.weldnor.spms.entity.User;
 import com.weldnor.spms.repository.UserRepository;
@@ -34,6 +35,14 @@ public class ProjectMapper {
         return project;
     }
 
+    public Project toEntity(UpdateProjectDto dto) {
+        Project project = mapper.map(dto, Project.class);
+        System.out.println(dto);
+        User owner = userRepository.findByUserId(dto.getOwnerId()).orElse(null);
+        project.setOwner(owner);
+        return project;
+    }
+
     public ProjectDto toDto(Project entity) {
         ProjectDto projectDto = mapper.map(entity, ProjectDto.class);
         projectDto.setOwnerId(entity.getOwner().getUserId());
@@ -47,5 +56,17 @@ public class ProjectMapper {
             dtoList.add(toDto(entity));
         }
         return dtoList;
+    }
+
+    public void merge(Project original, Project updated) {
+        if (updated.getName() != null) {
+            original.setName(updated.getName());
+        }
+        if (updated.getDescription() != null) {
+            original.setDescription(updated.getDescription());
+        }
+        if (updated.getOwner() != null) {
+            original.setOwner(updated.getOwner());
+        }
     }
 }

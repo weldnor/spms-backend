@@ -2,6 +2,7 @@ package com.weldnor.spms.controller;
 
 import com.weldnor.spms.dto.project.NewProjectDto;
 import com.weldnor.spms.dto.project.ProjectDto;
+import com.weldnor.spms.dto.project.UpdateProjectDto;
 import com.weldnor.spms.entity.Project;
 import com.weldnor.spms.mapper.project.ProjectMapper;
 import com.weldnor.spms.service.ProjectService;
@@ -43,6 +44,12 @@ public class ProjectController {
         Project project = projectMapper.toEntity(projectDto);
         project = projectService.add(project);
         return projectMapper.toDto(project);
+    }
+
+    @PostMapping(path = "/{id}")
+    public void updateProject(@PathVariable(name = "id") long id, @RequestBody @Valid UpdateProjectDto projectDto) {
+        Project project = projectMapper.toEntity(projectDto);
+        projectService.update(project, id);
     }
 
     @DeleteMapping(path = "/{id}")

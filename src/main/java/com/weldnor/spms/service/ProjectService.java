@@ -12,5 +12,7 @@ public interface ProjectService {
 
     Project add(Project project);
 
+    void update(Project project, long id);
+
     void deleteById(long id);
 }
