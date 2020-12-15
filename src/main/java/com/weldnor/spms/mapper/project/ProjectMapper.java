@@ -45,7 +45,9 @@ public class ProjectMapper {
 
     public ProjectDto toDto(Project entity) {
         ProjectDto projectDto = mapper.map(entity, ProjectDto.class);
-        projectDto.setOwnerId(entity.getOwner().getUserId());
+        if(entity.getOwner() != null){
+            projectDto.setOwnerId(entity.getOwner().getUserId());
+        }
         return projectDto;
     }
 
