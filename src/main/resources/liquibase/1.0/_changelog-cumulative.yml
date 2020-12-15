@@ -26,3 +26,11 @@ databaseChangeLog:
         - sqlFile:
             path: spms-20201130-1325.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: spms-20201215-1227
+      author: kolesov_as
+      comment: Remove not null constraint
+      changes:
+        - sqlFile:
+            path: spms-20201215-1227.sql
+            relativeToChangelogFile: true
