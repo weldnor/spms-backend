@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class GlobalRoleDto {
-    private Long globalRoleId;
+    private long globalRoleId;
     private String name;
 }

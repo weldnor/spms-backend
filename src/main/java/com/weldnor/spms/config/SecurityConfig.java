@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .mvcMatchers("/api/public/**").permitAll()
-                .mvcMatchers("/api/**").hasRole("USER")
+ //               .mvcMatchers("/api/**").hasRole("USER")
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

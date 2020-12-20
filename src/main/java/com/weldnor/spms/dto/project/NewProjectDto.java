@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Data
 public class NewProjectDto {
     @Size(min = 1, max = 40)
-    @Pattern(regexp = "^[\\w]*$")
+    @Pattern(regexp = "^[\\wown]*$")
     @NotNull
     private String name;
 
