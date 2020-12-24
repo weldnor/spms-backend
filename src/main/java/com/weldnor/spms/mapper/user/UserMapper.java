@@ -4,7 +4,6 @@ import com.weldnor.spms.dto.global_role.GlobalRoleDto;
 import com.weldnor.spms.dto.user.NewUserDto;
 import com.weldnor.spms.dto.user.UpdateUserDto;
 import com.weldnor.spms.dto.user.UserDto;
-import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
 import com.weldnor.spms.mapper.global_role.GlobalRoleMapper;
 import org.modelmapper.ModelMapper;
@@ -76,7 +75,7 @@ public class UserMapper {
         if (updated.getPatronymic() != null) {
             original.setPatronymic(updated.getPatronymic());
         }
-        if (updated.getPassword() != null) {
+        if (updated.getPassword() != null && updated.getPassword() != original.getPassword()) {
             original.setPassword(updated.getPassword());
         }
         if (updated.getEmail() != null) {

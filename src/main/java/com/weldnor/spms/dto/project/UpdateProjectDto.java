@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 @Data
 public class UpdateProjectDto {
     @Size(min = 1, max = 40)
-    @Pattern(regexp = "^[\\w]*$")
+    @Pattern(regexp = "^[\\w ]*$")
     private String name;
 
     private long ownerId;

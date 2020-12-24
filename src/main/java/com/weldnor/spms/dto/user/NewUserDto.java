@@ -20,16 +20,16 @@ public class NewUserDto {
     private String firstName;
 
     @Size(min = 1, max = 20)
-    @Pattern(regexp = "^[a-zA-Z ]*$")
+    @Pattern(regexp = "^[\\w ]*$")
     @NotNull
     private String secondName;
 
     @Size(max = 20)
-    @Pattern(regexp = "^[a-zA-Z ]*$")
+    @Pattern(regexp = "^[\\w ]*$")
     private String patronymic;
 
     @Size(min = 8, max = 40)
-    @Pattern(regexp = "^[\\w]*$")
+    @Pattern(regexp = "^[\\w ]*$")
     @NotNull
     private String password;
 

@@ -32,9 +32,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    public User getUser(@PathVariable(name = "id") long id) {
-        return userService.getById(id)
-                .orElseThrow();
+    public UserDto getUser(@PathVariable(name = "id") long id) {
+        User user = userService.getById(id).orElseThrow();
+        return userMapper.toDto(user);
     }
 
     @PostMapping(path = "/{id}")

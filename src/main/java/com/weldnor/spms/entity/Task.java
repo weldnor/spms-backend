@@ -3,9 +3,7 @@ package com.weldnor.spms.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tasks")
@@ -13,10 +11,11 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Task {
     @Id
-    private long taskId;
-    private long projectId;
-    private long creatorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long taskId;
+    private Long projectId;
+    private Long creatorId;
     private String name;
     private String description;
-    private String status_id;
+    private Long statusId;
 }

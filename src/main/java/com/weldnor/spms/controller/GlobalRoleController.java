@@ -33,7 +33,7 @@ public class GlobalRoleController {
     }
 
     @GetMapping(path = "/{id}")
-    public GlobalRoleDto getAllGlobalRole(@PathVariable(name = "id") long id) {
+    public GlobalRoleDto getGlobalRole(@PathVariable(name = "id") long id) {
         GlobalRole role = globalRoleService.getById(id).orElseThrow();
         return globalRoleMapper.toDto(role);
     }
