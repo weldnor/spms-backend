@@ -2,13 +2,17 @@ package com.weldnor.spms.controller;
 
 import com.weldnor.spms.dto.user.UpdateUserDto;
 import com.weldnor.spms.dto.user.UserDto;
+import com.weldnor.spms.entity.GlobalRole;
 import com.weldnor.spms.entity.User;
 import com.weldnor.spms.mapper.user.UserMapper;
+import com.weldnor.spms.service.GlobalRoleService;
 import com.weldnor.spms.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(
@@ -18,17 +22,39 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    private final GlobalRoleService globalRoleService;
+
     private final UserMapper userMapper;
 
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, GlobalRoleService globalRoleService, UserMapper userMapper) {
         this.userService = userService;
+        this.globalRoleService = globalRoleService;
         this.userMapper = userMapper;
     }
 
     @GetMapping(path = "")
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getAllUsers(
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String name
+    ) {
         List<User> users = userService.getAll();
-        return userMapper.toDto(users);
+        Stream<User> userStream = users.stream();
+
+        if (name != null) {
+            userStream = userStream.filter(user -> user.getUsername().startsWith(name));
+        }
+
+        if (role != null && role.equals("admin")) {
+            GlobalRole adminRole = globalRoleService.getByName("ADMIN").orElseThrow();
+            userStream = userStream.filter(user -> user.getGlobalRoles().contains(adminRole));
+        }
+
+        if (role != null && role.equals("admin")) {
+            GlobalRole adminRole = globalRoleService.getByName("USER").orElseThrow();
+            userStream = userStream.filter(user -> user.getGlobalRoles().contains(adminRole));
+        }
+
+        return userMapper.toDto(userStream.collect(Collectors.toList()));
     }
 
     @GetMapping(path = "/{id}")

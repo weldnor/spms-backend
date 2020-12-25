@@ -11,6 +11,8 @@ public interface GlobalRoleService {
 
     Optional<GlobalRole> getById(long id);
 
+    Optional<GlobalRole> getByName(String name);
+
     GlobalRole add(GlobalRole globalRole);
 
     void update(GlobalRole globalRole, long id);

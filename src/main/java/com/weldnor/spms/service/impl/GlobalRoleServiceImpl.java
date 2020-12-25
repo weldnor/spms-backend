@@ -32,6 +32,11 @@ public class GlobalRoleServiceImpl implements GlobalRoleService {
     }
 
     @Override
+    public Optional<GlobalRole> getByName(String name) {
+        return globalRoleRepository.findByName(name);
+    }
+
+    @Override
     public GlobalRole add(GlobalRole globalRole) {
         return globalRoleRepository.save(globalRole);
     }
